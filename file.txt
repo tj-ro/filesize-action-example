@@ -2,7 +2,10 @@ msgid ""
 msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Content-Type: text/plain; charset=utf-8\n"
-"Language: en\n" 
+"Language: en\n"
+
+msgid "golf"
+msgstr ""
 
 msgid "delta"
 msgstr ""
