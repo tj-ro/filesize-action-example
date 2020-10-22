@@ -1,0 +1,54 @@
+name: file size manager
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Reduce file if it has grown beyond limit
+        run: |
+          maxfilesize=200
+          targetfile=$GITHUB_WORKSPACE/file.txt
+          currentfilesize=$(wc -c ${targetfile} | awk '{print $1}')
+          if [ $currentfilesize -gt $maxfilesize ] ; then
+            echo "File size is greater than maximum allowed. Reducing.."
+            last_file_change_commit_hash=$(git log -n 1 --pretty=format:%H -- ${targetfile})
+
+            # Get the most recent additions committed to the file and put them in a commit_additions array
+            mapfile -t commit_additions < <(git diff -w HEAD~1 ${last_file_change_commit_hash} -- ${targetfile}  | grep '^[+]' | grep -Ev '^(a/|\+\+\+ b/)')
+
+            # Add static header to file contents
+            echo "msgid \"\"" > ${targetfile}
+            echo "msgstr \"\"" >> ${targetfile}
+            echo "\"Content-Transfer-Encoding: 8bit\n\"" >> ${targetfile}
+            echo "\"Content-Type: text/plain; charset=utf-8\n\"" >> ${targetfile}
+            echo "\"Language: en\n\"" "" >> ${targetfile}
+            echo "" >> ${targetfile}
+
+            # Remove duplicate consecutive blank lines, trailing blank lines, and leading +'s from commit addition lines
+            was_previous_line_blank=true
+            for ((i =0; i < ${#commit_additions[@]}; i++))
+            do
+              if [ "${commit_additions[$i]}" != "+" ] ; then
+                echo "${commit_additions[$i]:1}" >> ${targetfile}
+                was_previous_line_blank=false
+              elif [ "${commit_additions[$i]}" = "+" -a $was_previous_line_blank != true -a "$i" != $((${#commit_additions[@]}-1)) ] ; then
+                echo "" >> ${targetfile}
+                was_previous_line_blank=true
+              fi
+            done
+
+            git config --global user.email "romanowskitj@gmail.com"
+            git config --global user.name "TJ Romanowski"
+            git add ${targetfile}
+            git commit -m "Automatically reduce file size"
+            git push
+          fi
