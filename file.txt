@@ -12,3 +12,6 @@ msgstr ""
 
 msgid "foxtrot"
 msgstr ""
+
+msgid "hotel"
+msgstr ""
