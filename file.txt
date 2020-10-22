@@ -9,3 +9,6 @@ msgstr ""
 
 msgid "bravo"
 msgstr ""
+
+msgid "charlie"
+msgstr ""
