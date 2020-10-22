@@ -7,7 +7,13 @@ msgstr ""
 msgid "alpha"
 msgstr ""
 
+msgid "delta"
+msgstr ""
+
 msgid "bravo"
+msgstr ""
+
+msgid "foxtrot"
 msgstr ""
 
 msgid "charlie"
