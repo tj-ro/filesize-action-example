@@ -4,15 +4,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: en\n" 
 
-msgid "india"
-msgstr ""
-
-msgid "juliet"
-msgstr ""
-
-msgid "kilo"
-msgstr ""
-
 msgid "tango"
 msgstr ""
 
