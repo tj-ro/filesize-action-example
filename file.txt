@@ -12,3 +12,12 @@ msgstr ""
 
 msgid "kilo"
 msgstr ""
+
+msgid "tango"
+msgstr ""
+
+msgid "idk"
+msgstr ""
+
+msgid "asdf"
+msgstr ""
